@@ -1,0 +1,16 @@
+<form method="post" class="col-12">
+    {% csrf_token %}
+    <div>
+        {% if add_tg_form.username.errors %}
+            <ol style="color: red;">
+                {% for error in add_tg_form.username.errors %}
+                    <li style="list-style-type: none;"><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+    </div>
+    {{ add_tg_form.username }}
+    <button class="btn btn-success">
+        Добавить
+    </button>
+</form>

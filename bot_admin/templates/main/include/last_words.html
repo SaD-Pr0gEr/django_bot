@@ -1,0 +1,24 @@
+<div>
+    <h2>Последние переводы</h2>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">С языка</th>
+                <th scope="col">На язык</th>
+                <th scope="col">Слово</th>
+                <th scope="col">Перевод</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for word in last_words %}
+                <tr>
+                    <th scope="row">{{ word.language }}</th>
+                    <td>{{ word.to_language }}</td>
+                    <td>{{ word.word }}</td>
+                    <td>{{ word.value }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="#" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Показать всю историю</a>
+</div>

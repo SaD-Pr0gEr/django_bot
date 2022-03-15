@@ -1,0 +1,43 @@
+<form method="post" class="col-12">
+    {% csrf_token %}
+    <h1>Переводчик</h1>
+    <div>
+        {% if add_word_form.word.errors %}
+            <ol style="color: red;">
+                {% for error in add_word_form.word.errors %}
+                    <li style="list-style-type: none;"><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+        {% if add_word_form.language.errors %}
+            <ol style="color: red;">
+                {% for error in add_word_form.language.errors %}
+                    <li style="list-style-type: none;"><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+        {% if add_word_form.to_language.errors %}
+            <ol style="color: red;">
+                {% for error in add_word_form.to_language.errors %}
+                    <li style="list-style-type: none;"><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+    </div>
+    <div class="col-6" style="margin: 0 auto;">
+        {{ add_word_form.word.label }}
+        {{ add_word_form.word }}
+    </div>
+    <br>
+    <div class="col-6" style="margin: 0 auto;">
+        {{ add_word_form.language.label }}
+        {{ add_word_form.language }}
+    </div>
+    <br>
+    <div class="col-6" style="margin: 0 auto;">
+        {{ add_word_form.to_language.label }}
+        {{ add_word_form.to_language }}
+    </div>
+    <br>
+    <button id="submit_translate" class="btn btn-danger" type="submit">Переводить</button>
+</form>
