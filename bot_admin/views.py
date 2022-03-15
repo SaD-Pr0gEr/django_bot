@@ -4,9 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from translate import Translator
 
 from bot_admin.forms import TelegramProfileForm, TranslateWordForm
-from bot_admin.models import TelegramProfile
+from bot_admin.models import TelegramProfile, Languages
 
 User = get_user_model()
 
@@ -58,6 +59,13 @@ def translate(request):
         return JsonResponse({"status": "method not allowed"}, status=405)
     form = TranslateWordForm(request.POST)
     if form.is_valid():
+        from_lang = Languages.objects.filter(language=form.cleaned_data['language']).first()
+        to_lang = Languages.objects.filter(language=form.cleaned_data['to_language']).first()
+        translator = Translator(
+            to_lang.code_for_translator.lower(),
+            from_lang.code_for_translator.lower(),
+        )
+        translate_ = translator.translate(form.cleaned_data['word'])
         save_data = form.save(commit=False)
         save_data.user = request.user
         save_data.value = form.cleaned_data['word']
@@ -65,7 +73,7 @@ def translate(request):
         json = {
             "status": "created",
             "status_code": 201,
-            "translate": form.cleaned_data['word']
+            "translate": translate_
         }
         return JsonResponse(json, status=201)
     return JsonResponse({"data": "bad request", "status": 400}, status=400)

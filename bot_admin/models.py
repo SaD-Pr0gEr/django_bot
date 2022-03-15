@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django.urls import reverse_lazy
+# from django.urls import reverse_lazy
 
 
 # DICT_LANGUAGE_CHOICES = [
@@ -17,6 +17,7 @@ class Languages(models.Model):
         max_length=120,
         unique=True
     )
+    code_for_translator = models.CharField("Сокращенный код языка", max_length=20)
     slug = models.SlugField("URL", unique=True)
 
     def __str__(self):
