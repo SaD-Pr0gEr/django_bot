@@ -1,0 +1,46 @@
+<form method="post" class="col-10">
+    {% csrf_token %}
+    <h1 class="text-center">Регистрация</h1>
+    <br>
+    <div>
+        {% if signup_form.email.errors %}
+            <ol style="color: red;">
+                {% for error in signup_form.email.errors %}
+                    <li style="list-style-type: none;"><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+        {% if signup_form.password1.errors %}
+            <ol style="color: red;">
+                {% for error in signup_form.password1.errors %}
+                    <li style="list-style-type: none;"><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+        {% if signup_form.password2.errors %}
+            <ol style="color: red;">
+                {% for error in signup_form.password2.errors %}
+                    <li style="list-style-type: none;"><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+    </div>
+    <div class="form-outline col-6 block-center mb-4">
+        <label class="form-label" for="form2Example1">{{ signup_form.email.label }}</label>
+        {{ signup_form.email }}
+    </div>
+    <div class="form-outline col-6 block-center mb-4">
+        <label class="form-label" for="form2Example2">{{ signup_form.password1.label }}</label>
+        {{ signup_form.password1 }}
+    </div>
+    <div class="form-outline col-6 block-center mb-4">
+        <label class="form-label" for="form2Example3">{{ signup_form.password2.label }}</label>
+        {{ signup_form.password2 }}
+    </div>
+    <button class="btn btn-warning" type="submit">
+        Регистрация
+    </button>
+    <div class="text-center">
+        <p>Есть аккаунт? <a href="{% url 'accounts:login' %}">Войдите</a></p>
+    </div>
+</form>

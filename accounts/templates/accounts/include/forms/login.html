@@ -1,0 +1,35 @@
+<form method="post" class="col-10">
+    {% csrf_token %}
+    <div>
+        {% if login_form.email.errors %}
+            <ol style="color: red;">
+                {% for error in login_form.email.errors %}
+                    <li style="list-style-type: none;"><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+        {% if login_form.password.errors %}
+            <ol style="color: red;">
+                {% for error in login_form.password.errors %}
+                    <li style="list-style-type: none;"><strong>{{ error|escape }}</strong></li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+    </div>
+    <h1 class="text-center">Вход</h1>
+    <br>
+    <div class="form-outline col-6 block-center mb-4">
+        <label class="form-label" for="form2Example1">{{ login_form.email.label }}</label>
+        {{ login_form.email }}
+    </div>
+    <div class="form-outline col-6 block-center mb-4">
+        <label class="form-label" for="form2Example2">{{ login_form.password.label }}</label>
+        {{ login_form.password }}
+    </div>
+    <button class="btn btn-warning" type="submit">
+        Войти
+    </button>
+    <div class="text-center">
+        <p>Нет аккаунта? <a href="{% url 'accounts:signup' %}">Зарегистрируйтесь</a></p>
+    </div>
+</form>
