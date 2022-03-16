@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 from telegram.forms import TelegramProfileForm
 from telegram.models import TelegramProfile
-from translator.forms import TranslateWordForm, DictionaryForm, AddWordDictForm
+from translator.forms import TranslateWordForm, DictionaryForm, AddWordDictForm, AddNewWord
 from translator.models import WordsHistory, Dictionary
 
 User = get_user_model()
@@ -32,7 +32,8 @@ def home(request: WSGIRequest):
     form = TelegramProfileForm()
     add_word_form = TranslateWordForm()
     add_dict_form = DictionaryForm()
-    add_word_dict_form = AddWordDictForm(initial={"word": {"choices": request.user.user_words.all()}})
+    add_word_dict_form = AddWordDictForm()
+    new_word_form = AddNewWord()
     add_word_dict_form.fields['word'].queryset = request.user.user_words.select_related("user").all()
     add_word_dict_form.fields['word'].label = "Слова из истории перевода"
     user_profiles = TelegramProfile.objects.filter(user=request.user).select_related("user").all()
@@ -50,7 +51,8 @@ def home(request: WSGIRequest):
         "add_word_form": add_word_form,
         "dicts_list": dicts_list,
         "add_dict_form": add_dict_form,
-        "add_word_dict_form": add_word_dict_form
+        "add_word_dict_form": add_word_dict_form,
+        "new_word_form": new_word_form
     }
     return render(
         request,

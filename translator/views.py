@@ -5,7 +5,7 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from translate import Translator
 
-from translator.forms import TranslateWordForm, DictionaryForm, AddWordDictForm
+from translator.forms import TranslateWordForm, DictionaryForm, AddWordDictForm, AddNewWord
 from translator.models import Languages, Dictionary, DictionaryWords, WordsHistory
 
 
@@ -128,4 +128,28 @@ def del_word_dict(request: WSGIRequest, dict_pk: int, word_pk: int):
         return HttpResponse(status=404)
     check.delete()
     messages.success(request, "Успешно удалили")
+    return redirect("main:home")
+
+
+@login_required(login_url="accounts:login")
+def add_new_word(request: WSGIRequest):
+    if request.method == "POST":
+        form = AddNewWord(request.POST)
+        if form.is_valid():
+            word = form.cleaned_data['word']
+            dictionary = request.POST['dictionary']
+            check_dict = get_object_or_404(Dictionary, pk=dictionary)
+            create_word = WordsHistory.objects.create(
+                word=word,
+                value=Translator("en", "ru").translate(word),
+                user=request.user,
+                language=Languages.objects.filter(code_for_translator="en").first(),
+                to_language=Languages.objects.filter(code_for_translator="ru").first(),
+            )
+            DictionaryWords.objects.create(dictionary=check_dict, word=create_word)
+            messages.success(request, "Добавили успешно")
+        else:
+            messages.error(request, "Форма не валидна")
+    else:
+        messages.info(request, "Разрешен только POST метод")
     return redirect("main:home")

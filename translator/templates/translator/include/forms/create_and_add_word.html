@@ -1,0 +1,9 @@
+<form action="{% url 'translator:add_new_word' %}" method="post">
+    {% csrf_token %}
+    {{ new_word_form.word.label }}
+    {{ new_word_form.word }}
+    <input type="hidden" name="dictionary" value="{{ dict.pk }}">
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Добавить</button>
+    </div>
+</form>

@@ -12,10 +12,12 @@
                     {{ add_word_dict_form.word }}
                     <input type="hidden" name="dictionary" value="{{ dict.pk }}">
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                         <button type="submit" class="btn btn-primary">Добавить</button>
                     </div>
                 </form>
+                <h3>Или добавьте новое слово</h3>
+                {% include 'translator/include/forms/create_and_add_word.html' %}
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>

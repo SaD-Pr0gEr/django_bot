@@ -42,3 +42,9 @@ class AddWordDictForm(forms.ModelForm):
                 attrs={"class": "form-select"},
             ),
         }
+
+
+class AddNewWord(forms.Form):
+    """Форма для создания и добавления слово в словарь"""
+
+    word = forms.CharField(label="Слово", widget=forms.TextInput(attrs={"class": "form-control"}))
