@@ -143,8 +143,8 @@ def add_new_word(request: WSGIRequest):
                 word=word,
                 value=Translator("en", "ru").translate(word),
                 user=request.user,
-                language=Languages.objects.filter(code_for_translator="en").first(),
-                to_language=Languages.objects.filter(code_for_translator="ru").first(),
+                language=get_object_or_404(Languages, code_for_translator="en"),
+                to_language=get_object_or_404(Languages, code_for_translator="ru"),
             )
             DictionaryWords.objects.create(dictionary=check_dict, word=create_word)
             messages.success(request, "Добавили успешно")
