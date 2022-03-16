@@ -1,0 +1,28 @@
+<div class="col-12" style="margin: 0 auto;">
+    <div class="card">
+        <div class="card-header">
+            Список словарей  <img src="https://img.icons8.com/fluency/24/000000/dictionary.png"/>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for dict in dicts_list %}
+                <li class="list-group-item">{{ dict }}
+                    <a data-bs-toggle="modal" data-bs-target="#dict-{{ dict.pk }}">
+                        <img src="https://img.icons8.com/ios/24/000000/visible--v1.png"/>
+                    </a>
+                    <a href="{{ dict.del_dict }}">
+                        <img src="https://img.icons8.com/color/24/000000/delete-forever.png"/>
+                    </a>
+                </li>
+                {% include 'translator/include/show_dict_words.html' %}
+                {% include 'translator/include/forms/add_word_to_dict.html' %}
+            {% endfor %}
+        </ul>
+    </div>
+    <br>
+    <div class="text-center">
+        <a href="#" class="btn btn-warning mb-4" data-bs-toggle="modal" data-bs-target="#modalRegisterForm">
+            Добавить словарь
+        </a>
+    </div>
+    {% include 'translator/include/forms/add_dict.html' %}
+</div>

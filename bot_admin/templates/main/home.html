@@ -25,47 +25,21 @@
     </header>
     {% include 'global/include/messages/flash_messages.html' %}
     <div class="col-12 row m-2 p-2">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-4 row" style="--bs-gutter-x: 0; --bs-gutter-y: 0;">
-            {% if user.user_profiles.all %}
-                <div class="card col-10 col-xs-12 col-sm-8 col-md-10 col-lg-8 m-2">
-                    <div class="card-header">
-                        Ваши профили Telegram
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        {% for profile in user_profiles %}
-                            <li class="list-group-item col-12">
-                                <h6>{{ profile }} <a href="{{ profile.delete_profile }}"><img src="https://img.icons8.com/color/24/000000/delete-forever.png"/></a></h6>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="col-10 col-xs-12 col-sm-8 col-md-10 col-lg-8 m-2 mt-4">
-                    <h2>Добавьте новые профили с Telegram <a data-toggle="collapse" href="#collapseExample"
-                                                     aria-controls="collapseExample">
-                        <img src="{% static 'main/img/info.svg' %}" alt="info icon" style="height: 25px; width: 25px;"></a>
-                    </h2>
-                    {% include 'telegram/include/tg_info.html' %}
-                    {% include 'telegram/include/forms/add_tg_profile.html' %}
-                </div>
-            {% else %}
-                <div class="col-10 col-xs-12 col-sm-8 col-md-10 col-lg-8 m-2 mt-4">
-                    <h2>Можно добавить профили с Telegram <a data-toggle="collapse" href="#collapseExample"
-                                                     aria-controls="collapseExample">
-                        <img src="{% static 'main/img/info.svg' %}" alt="info icon" style="height: 25px; width: 25px;"></a>
-                    </h2>
-                    {% include 'telegram/include/tg_info.html' %}
-                    {% include 'telegram/include/forms/add_tg_profile.html' %}
-                </div>
-            {% endif %}
-        </div>
+        {% include 'telegram/include/tg_profiles.html' %}
         {% if user.user_words.all %}
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
                 {% include 'translator/include/last_words.html' %}
                 {% include 'translator/include/delete_confirm_modal.html' %}
             </div>
         {% endif %}
-        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 xol-xxl-6 text-center" style="margin: 0 auto; margin-top: 30px;">
-            {% include 'translator/include/forms/add_new_word.html' %}
+        <div class="col-12 row">
+            <div class="col-12 col-sm-12 col-md-10 col-lg-4 col-xl-4 xol-xxl-4 text-center" style="margin: 0 auto; margin-top: 30px;">
+                <h2>Ваши словари</h2>
+                {% include 'translator/include/dictionaries_list.html' %}
+            </div>
+            <div class="col-12 col-sm-12 col-md-10 col-lg-8 col-xl-8 xol-xxl-8 text-center" style="margin: 0 auto; margin-top: 30px;">
+                {% include 'translator/include/forms/add_new_word.html' %}
+            </div>
         </div>
 
         {% include 'translator/include/all_words.html' %}

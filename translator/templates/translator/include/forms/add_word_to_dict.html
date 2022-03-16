@@ -1,0 +1,22 @@
+<div class="modal fade" id="form-{{ dict.pk }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Добавить слово в словарь</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'translator:add_word_dict' %}" method="post">
+                    {% csrf_token %}
+                    {{ add_word_dict_form.word.label }}
+                    {{ add_word_dict_form.word }}
+                    <input type="hidden" name="dictionary" value="{{ dict.pk }}">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -76,6 +76,9 @@ class Dictionary(models.Model):
         verbose_name="Владелец"
     )
 
+    def del_dict(self):
+        return reverse_lazy("translator:delete_dict", kwargs={"dict_pk": self.pk})
+
     def __str__(self):
         return self.name
 
@@ -88,7 +91,7 @@ class Dictionary(models.Model):
         ordering = ["-pk", ]
 
 
-class DictionaryBooks(models.Model):
+class DictionaryWords(models.Model):
     """М2М модель для словаря и слов"""
 
     dictionary = models.ForeignKey(
@@ -103,6 +106,9 @@ class DictionaryBooks(models.Model):
         related_name="word_dictionaries",
         verbose_name="Слова"
     )
+
+    def del_data(self):
+        return reverse_lazy("translator:del_word_dict", kwargs={"dict_pk": self.dictionary.pk, "word_pk": self.word.pk})
 
     def __str__(self):
         return self.dictionary.name

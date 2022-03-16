@@ -1,0 +1,22 @@
+<div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form method="post" action="{% url 'translator:add_dict' %}" class="modal-content">
+            {% csrf_token %}
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Добавить словарь</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="md-form mb-5">
+                    <i class="fas fa-user prefix grey-text"></i>
+                    {{ add_dict_form.name.label }}
+                    {{ add_dict_form.name }}
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-primary" type="submit">Добавить</button>
+            </div>
+        </form>
+    </div>
+</div>

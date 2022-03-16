@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from translator.models import WordsHistory, Dictionary, DictionaryBooks, Languages
+from translator.models import WordsHistory, Dictionary, DictionaryWords, Languages
 
 
 @admin.register(Languages)
@@ -24,7 +24,7 @@ class DictionaryAdmin(admin.ModelAdmin):
     search_fields = ["name", "user"]
 
 
-@admin.register(DictionaryBooks)
+@admin.register(DictionaryWords)
 class DictionaryBooksAdmin(admin.ModelAdmin):
     list_display = ["word", "dictionary"]
     list_display_links = ["word", ]
