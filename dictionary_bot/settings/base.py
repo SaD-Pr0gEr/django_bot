@@ -11,8 +11,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'telegram.apps.TelegramConfig',
     'bot_admin.apps.BotAdminConfig',
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'translator.apps.TranslatorConfig',
 ]
 
 MIDDLEWARE = [

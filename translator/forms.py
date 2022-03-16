@@ -1,17 +1,6 @@
 from django import forms
 
-from bot_admin.models import TelegramProfile, WordsHistory
-
-
-class TelegramProfileForm(forms.ModelForm):
-    """Форма добавления профиля с сайта"""
-
-    class Meta:
-        model = TelegramProfile
-        fields = ("username", )
-        widgets = {
-            "username": forms.TextInput(attrs={"placeholder": "Начните с @"})
-        }
+from translator.models import WordsHistory
 
 
 class TranslateWordForm(forms.ModelForm):

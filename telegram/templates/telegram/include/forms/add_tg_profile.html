@@ -1,4 +1,4 @@
-<form method="post" class="col-12">
+<form action="{% url 'telegram_app:add_profile' %}" method="post" class="col-12">
     {% csrf_token %}
     <div>
         {% if add_tg_form.username.errors %}

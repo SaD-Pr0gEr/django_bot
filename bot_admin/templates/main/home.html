@@ -29,12 +29,12 @@
             {% if user.user_profiles.all %}
                 <div class="card col-10 col-xs-12 col-sm-8 col-md-10 col-lg-8 m-2">
                     <div class="card-header">
-                        Ваши профили
+                        Ваши профили Telegram
                     </div>
                     <ul class="list-group list-group-flush">
-                        {% for profile in user.user_profiles.all %}
+                        {% for profile in user_profiles %}
                             <li class="list-group-item col-12">
-                                <h6>{{ profile }}</h6>
+                                <h6>{{ profile }} <a href="{{ profile.delete_profile }}"><img src="https://img.icons8.com/color/24/000000/delete-forever.png"/></a></h6>
                             </li>
                         {% endfor %}
                     </ul>
@@ -44,8 +44,8 @@
                                                      aria-controls="collapseExample">
                         <img src="{% static 'main/img/info.svg' %}" alt="info icon" style="height: 25px; width: 25px;"></a>
                     </h2>
-                    {% include 'main/include/tg_info.html' %}
-                    {% include 'main/include/forms/add_tg_profile.html' %}
+                    {% include 'telegram/include/tg_info.html' %}
+                    {% include 'telegram/include/forms/add_tg_profile.html' %}
                 </div>
             {% else %}
                 <div class="col-10 col-xs-12 col-sm-8 col-md-10 col-lg-8 m-2 mt-4">
@@ -53,22 +53,24 @@
                                                      aria-controls="collapseExample">
                         <img src="{% static 'main/img/info.svg' %}" alt="info icon" style="height: 25px; width: 25px;"></a>
                     </h2>
-                    {% include 'main/include/tg_info.html' %}
-                    {% include 'main/include/forms/add_tg_profile.html' %}
+                    {% include 'telegram/include/tg_info.html' %}
+                    {% include 'telegram/include/forms/add_tg_profile.html' %}
                 </div>
             {% endif %}
         </div>
         {% if user.user_words.all %}
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-8">
-                {% include 'main/include/last_words.html' %}
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 col-xxl-8">
+                {% include 'translator/include/last_words.html' %}
+                {% include 'translator/include/delete_confirm_modal.html' %}
             </div>
         {% endif %}
         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 xol-xxl-6 text-center" style="margin: 0 auto; margin-top: 30px;">
-            {% include 'main/include/forms/add_new_word.html' %}
+            {% include 'translator/include/forms/add_new_word.html' %}
         </div>
 
-        {% include 'main/include/all_words.html' %}
+        {% include 'translator/include/all_words.html' %}
     </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
           $(document).ready(function () {
@@ -77,7 +79,7 @@
                   // создаем AJAX-вызов
                   $.ajax({
                       data: {"word": $("#word").val(), "language": $("#language").val(), "to_language": $("#to_language").val(),}, // получаяем данные формы
-                      url: "{% url 'main:translate' %}",
+                      url: "{% url 'translator:translate' %}",
                       type: "post",
                       headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value},
                       // если успешно, то

@@ -7,6 +7,8 @@
                 <th scope="col">На язык</th>
                 <th scope="col">Слово</th>
                 <th scope="col">Перевод</th>
+<!--                <th scope="col">Удалить?</th>-->
+<!--                <th scope="col">В словарь</th>-->
             </tr>
         </thead>
         <tbody>
@@ -16,9 +18,15 @@
                     <td>{{ word.to_language }}</td>
                     <td>{{ word.word }}</td>
                     <td>{{ word.value }}</td>
+                    <td>
+                        <a href="{{ word.delete_word }}">
+                            <img src="https://img.icons8.com/color/24/000000/delete-forever.png"/>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     <a href="#" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Показать всю историю</a>
+    <a href="#" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Удалить всю историю</a>
 </div>
