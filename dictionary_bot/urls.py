@@ -8,7 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('telegram/', include('telegram.urls')),
     path('translator/', include('translator.urls')),
-    path('', include("bot_admin.urls")),
+    path('', include("main.urls")),
 ]
 
 if settings.DEBUG:

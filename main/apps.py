@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class BotAdminConfig(AppConfig):
+class MainConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'bot_admin'
+    name = 'main'
     verbose_name = 'Админ бота'

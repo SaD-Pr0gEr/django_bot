@@ -12,7 +12,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'telegram.apps.TelegramConfig',
-    'bot_admin.apps.BotAdminConfig',
+    'main.apps.MainConfig',
     'accounts.apps.AccountsConfig',
     'translator.apps.TranslatorConfig',
 ]

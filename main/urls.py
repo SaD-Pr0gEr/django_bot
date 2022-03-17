@@ -1,6 +1,6 @@
 from django.urls import path
 
-from bot_admin.views import home
+from main.views import home
 
 app_name = 'main'
 
