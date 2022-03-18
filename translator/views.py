@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, get_object_or_404
-from translate import Translator
+from googletrans import Translator
 
 from translator.forms import TranslateWordForm, DictionaryForm, AddWordDictForm, AddNewWord
 from translator.models import Languages, Dictionary, DictionaryWords, WordsHistory
@@ -17,19 +17,20 @@ def translate(request: WSGIRequest):
     if form.is_valid():
         from_lang = Languages.objects.filter(language=form.cleaned_data['language']).first()
         to_lang = Languages.objects.filter(language=form.cleaned_data['to_language']).first()
-        translator = Translator(
-            to_lang.code_for_translator.lower(),
-            from_lang.code_for_translator.lower(),
+        translator = Translator()
+        translate_ = translator.translate(
+            form.cleaned_data['word'],
+            dest=to_lang.code_for_translator,
+            src=from_lang.code_for_translator
         )
-        translate_ = translator.translate(form.cleaned_data['word'])
         save_data = form.save(commit=False)
         save_data.user = request.user
-        save_data.value = translate_
+        save_data.value = translate_.text
         save_data.save()
         json = {
             "status": "created",
             "status_code": 201,
-            "translate": translate_
+            "translate": translate_.text
         }
         return JsonResponse(json, status=201)
     return JsonResponse({"data": "bad request", "status": 400}, status=400)
@@ -75,7 +76,7 @@ def add_dict(request: WSGIRequest):
             save.save()
             messages.success(request, "Словарь успешно добавлен")
         else:
-            messages.error(request, "Форма не валидна")
+            messages.error(request, "Данные не валидны")
         return redirect("main:home")
     messages.info(request, "Разрешен толкьо GET метод")
     return redirect("main:home")
@@ -137,14 +138,29 @@ def add_new_word(request: WSGIRequest):
         form = AddNewWord(request.POST)
         if form.is_valid():
             word = form.cleaned_data['word']
+            check_word = WordsHistory.objects.filter(word=word).first()
             dictionary = request.POST['dictionary']
             check_dict = get_object_or_404(Dictionary, pk=dictionary)
+            from_lang = Languages.objects.first()
+            to_lang = Languages.objects.all()[1]
+            check_unique = DictionaryWords.objects.filter(
+                word=check_word,
+                dictionary=check_dict,
+                dictionary__user=request.user
+            ).first()
+            if check_unique:
+                messages.info(request, "Слово уже есть в словаре")
+                return redirect("main:home")
             create_word = WordsHistory.objects.create(
                 word=word,
-                value=Translator("en", "ru").translate(word),
+                value=Translator().translate(
+                    word,
+                    dest=from_lang.code_for_translator,
+                    src=to_lang.code_for_translator
+                ).text,
                 user=request.user,
-                language=get_object_or_404(Languages, code_for_translator="en"),
-                to_language=get_object_or_404(Languages, code_for_translator="ru"),
+                language=get_object_or_404(Languages, code_for_translator=from_lang.code_for_translator),
+                to_language=get_object_or_404(Languages, code_for_translator=to_lang.code_for_translator),
             )
             DictionaryWords.objects.create(dictionary=check_dict, word=create_word)
             messages.success(request, "Добавили успешно")

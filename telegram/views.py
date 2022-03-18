@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 
 from telegram.forms import TelegramProfileForm
@@ -25,11 +24,8 @@ def add_profile(request):
     if request.method == "POST":
         form = TelegramProfileForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            if not username.startswith("@"):
-                messages.info(request, "Профиль должен начаться с @")
-                return redirect("main:home")
-            if TelegramProfile.objects.filter(username=username).first():
+            user_id = form.cleaned_data['tg_user_ID']
+            if TelegramProfile.objects.filter(tg_user_ID=user_id).first():
                 messages.info(request, "Этот профиль уже добавлен")
                 return redirect("main:home")
             new_profile = form.save(commit=False)
@@ -37,5 +33,7 @@ def add_profile(request):
             new_profile.save()
             messages.success(request, "Успешно добавлен")
             return redirect("main:home")
+        messages.error(request, "Данные не валидны")
     else:
-        return HttpResponse(status=405)
+        messages.info(request, "Разрешен только POST метод")
+    return redirect("main:home")

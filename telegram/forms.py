@@ -8,7 +8,7 @@ class TelegramProfileForm(forms.ModelForm):
 
     class Meta:
         model = TelegramProfile
-        fields = ("username", )
+        fields = ("tg_user_ID", )
         widgets = {
-            "username": forms.TextInput(attrs={"placeholder": "Начните с @"})
+            "tg_user_ID": forms.TextInput(attrs={"placeholder": "Вводите свой ID"})
         }

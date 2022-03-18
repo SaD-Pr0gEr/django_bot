@@ -12,9 +12,9 @@ class LanguagesAdmin(admin.ModelAdmin):
 
 @admin.register(WordsHistory)
 class WordsHistoryAdmin(admin.ModelAdmin):
-    list_display = ['word', 'user', 'language']
+    list_display = ['word', 'user', 'tg_user', 'language']
     list_display_links = ['word', ]
-    search_fields = ['word', ]
+    search_fields = ['word', 'tg_user', 'user']
 
 
 @admin.register(Dictionary)

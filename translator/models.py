@@ -33,9 +33,19 @@ class WordsHistory(models.Model):
     value = models.CharField("Перевод", max_length=120)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="user_words",
-        verbose_name="Владелец истории"
+        verbose_name="Владелец истории",
+        null=True,
+        blank=True
+    )
+    tg_user = models.ForeignKey(
+        "telegram.TelegramProfile",
+        on_delete=models.SET_NULL,
+        related_name="tg_user_words",
+        verbose_name="Профиль с телеграма",
+        null=True,
+        blank=True
     )
     language = models.ForeignKey(
         Languages,
@@ -68,12 +78,26 @@ class WordsHistory(models.Model):
 class Dictionary(models.Model):
     """Модель словаря"""
 
-    name = models.CharField("Название", max_length=120)
+    name = models.CharField(
+        "Название",
+        max_length=120,
+        unique=True
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="user_dictionaries",
-        verbose_name="Владелец"
+        verbose_name="Владелец",
+        null=True,
+        blank=True
+    )
+    tg_user = models.ForeignKey(
+        "telegram.TelegramProfile",
+        on_delete=models.SET_NULL,
+        related_name="tg_user_dicts",
+        verbose_name="Профиль с телеграма",
+        null=True,
+        blank=True
     )
 
     def del_dict(self):

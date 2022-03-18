@@ -6,10 +6,10 @@
             </div>
             <ul class="list-group list-group-flush">
                 {% for profile in user_profiles %}
-                <li class="list-group-item col-12">
-                    <h6>{{ profile }} <a href="{{ profile.delete_profile }}"><img
-                            src="https://img.icons8.com/color/24/000000/delete-forever.png"/></a></h6>
-                </li>
+                    <li class="list-group-item col-12">
+                        <h6>{{ profile }} <a href="{{ profile.delete_profile }}"><img
+                                src="https://img.icons8.com/color/24/000000/delete-forever.png"/></a></h6>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
