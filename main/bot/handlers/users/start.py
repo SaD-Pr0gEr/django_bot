@@ -102,12 +102,24 @@ def get_category(message: Message):
             tg_user = TelegramProfile.objects.filter(tg_user_ID=message.from_user.id).first()
             get_user_words = WordsHistory.objects.filter(tg_user=tg_user).all()
             get_user_dict = Dictionary.objects.filter(tg_user=tg_user).all()
-            for data in get_user_words:
-                data.user = check_user
-                data.save()
-            for save in get_user_dict:
-                save.user = check_user
-                save.save()
+            if get_user_words:
+                for data in get_user_words:
+                    data.user = check_user
+                    data.save()
+            if get_user_dict:
+                for save in get_user_dict:
+                    save.user = check_user
+                    save.save()
+            get_site_user_words = WordsHistory.objects.filter(user=tg_user.user).all()
+            if get_site_user_words:
+                for word in get_site_user_words:
+                    word.tg_user = tg_user
+                    word.save()
+            get_site_user_dicts = Dictionary.objects.filter(user=tg_user.user).all()
+            if get_site_user_dicts:
+                for dicts in get_site_user_dicts:
+                    dicts.tg_user = tg_user
+                    dicts.save()
             bot.send_message(message.from_user.id, "Уcпешно синхронизировано!")
         else:
             bot.send_message(message.from_user.id, "У вас нету аккаунтов на сайте!")
