@@ -31,8 +31,10 @@ def signup_page(request: WSGIRequest):
                 domain = request.META['HTTP_HOST']
                 confirm_url = f"{domain}{reverse('accounts:email_confirm', kwargs={'email': user.email})}"
                 # confirm_email(user.email, confirm_url, domain)
+                user.is_active = True
                 user.save()
-                messages.success(request, 'Проверьте почту и активируйте аккаунт!')
+                # messages.success(request, 'Проверьте почту и активируйте аккаунт!')
+                messages.success(request, "Успешно зарегистрировались! Теперь войдите в аккаунт")
                 return redirect('accounts:login')
             else:
                 messages.error(request, 'Пользователь с таким email уже существует!')
