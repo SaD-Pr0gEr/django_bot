@@ -79,7 +79,7 @@ def get_category(message: Message):
             time.sleep(1)
             bot.send_message(message.from_user.id, "\n".join(text))
         else:
-            bot.send_message("Вы ещё ничего не переводили)")
+            bot.send_message(message.from_user.id, "Вы ещё ничего не переводили)")
         start_reset(message)
     elif message.text.lower() == "добавить слово из истории в словарь ➕":
         add_word_state.get_dict = True

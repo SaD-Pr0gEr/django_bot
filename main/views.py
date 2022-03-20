@@ -21,20 +21,20 @@ def home(request: WSGIRequest):
         ).select_related(
             "language",
             "to_language",
-            "user"
+            "user",
         ).all()
     else:
         all_words = WordsHistory.objects.filter(user=request.user).select_related(
             "language",
             "to_language",
-            "user"
+            "user",
         ).all()
     form = TelegramProfileForm()
     add_word_form = TranslateWordForm()
     add_dict_form = DictionaryForm()
     add_word_dict_form = AddWordDictForm()
     new_word_form = AddNewWord()
-    add_word_dict_form.fields['word'].queryset = request.user.user_words.select_related("user").all()
+    add_word_dict_form.fields['word'].queryset = request.user.user_words.select_related("user", "tg_user").all()
     add_word_dict_form.fields['word'].label = "Слова из истории перевода"
     user_profiles = TelegramProfile.objects.filter(user=request.user).select_related("user").all()
     dicts_list = Dictionary.objects.filter(user=request.user).prefetch_related(
